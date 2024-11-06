@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,106 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum ORDER_STATUS {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum USER_ROLES {
+  CUSTOMER
+  RIDER
+  ADMIN
+}
+
+model User {
+  id          String        @id @default(cuid())
+  name        String
+  email       String        @unique
+  password    String
+  role        USER_ROLES
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Orders      Orders[]
+  Deliveries  Deliveries[]
+  Session     Session[]
+  Restaurants Restaurants[]
+}
+
+model Restaurants {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  user_id   String
+  rating    Float?   @default(0.0)
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Dishes    Dishes[]
+  Orders    Orders[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Dishes {
+  id               String      @id @default(cuid())
+  name             String
+  category         String
+  price            Int
+  popularity_score Int
+  isAvailable      Boolean     @default(true)
+  restaurant_id    String
+  restaurant       Restaurants @relation(fields: [restaurant_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  orderDish        orderDish[]
+}
+
+model Orders {
+  id            String       @id @default(cuid())
+  total_cost    Int
+  order_time    Int
+  status        ORDER_STATUS
+  user_id       String
+  restaurant_id String
+  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  restaurant    Restaurants  @relation(fields: [restaurant_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  orderDish     orderDish[]
+  Delieveries   Deliveries[]
+}
+
+model orderDish {
+  order_id  String
+  dish_id   String
+  quantity  Int
+  dishes    Dishes   @relation(fields: [dish_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  order     Orders   @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([order_id, dish_id]) // Composite key
+}
+
+model Deliveries {
+  id                          String   @id @default(cuid())
+  delivery_time               Int
+  estimated_delivery_duration Int
+  assigned_rider_id           String
+  order_id                    String
+  user                        User     @relation(fields: [assigned_rider_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  orders                      Orders   @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  user_id      String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }

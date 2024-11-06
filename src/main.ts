@@ -11,6 +11,9 @@ import { AppModule } from 'app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix('v1/api')
+
   app.enableCors({
     origin: '*',
     credentials: CREDENTIALS,
@@ -29,14 +32,14 @@ async function bootstrap() {
     }),
   );
 
-  // Error Middleware
-  app.useGlobalFilters(new HttpExceptionFilter());
-
   await app.listen(PORT, () => {
     logger.info(`=================================`);
-    logger.info(`======= ENV: ${NODE_ENV} =======`);
-    logger.info(`🚀 App listening on the port ${PORT ?? 3000}`);
+    logger.info(`======= ENV: ${NODE_ENV || 'development'} =======`);
+    logger.info(`🚀 App listening on the port ${PORT ?? 3001}`);
     logger.info(`=================================`);
   });
+
+  // Error Middleware
+  app.useGlobalFilters(new HttpExceptionFilter());
 }
 bootstrap();

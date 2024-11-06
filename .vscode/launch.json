@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node-terminal",
+        "request": "launch",
+        "name": "Start Dev Server",
+        "command": "yarn start:debug"
+      },
+      {
+        "type": "node-terminal",
+        "request": "launch",
+        "name": "Run Production",
+        "command": "yarn run production"
+      }
+    ]
+  }
+  
