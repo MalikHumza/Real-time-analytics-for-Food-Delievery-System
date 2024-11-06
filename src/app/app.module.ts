@@ -8,21 +8,16 @@ import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 
 @Module({
-    imports: [
-        AuthModule,
-        UserModule,
-        RestaurantModule,
-        DishesModule
-    ],
-    providers: [
-        { provide: APP_FILTER, useClass: HttpExceptionFilter, },
-        { provide: APP_GUARD, useClass: AuthGuard, },
-        // {
-        //     provide: APP_GUARD, useFactory: (authGuard: AuthGuard, roles_guard: RolesGuard) => {
-        //         return [authGuard, roles_guard]
-        //     },
-        //     inject: [AuthGuard, RolesGuard]
-        // },
-    ],
+  imports: [AuthModule, UserModule, RestaurantModule, DishesModule],
+  providers: [
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    { provide: APP_GUARD, useClass: AuthGuard },
+    // {
+    //     provide: APP_GUARD, useFactory: (authGuard: AuthGuard, roles_guard: RolesGuard) => {
+    //         return [authGuard, roles_guard]
+    //     },
+    //     inject: [AuthGuard, RolesGuard]
+    // },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

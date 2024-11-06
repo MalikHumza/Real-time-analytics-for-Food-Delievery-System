@@ -12,7 +12,7 @@ import { AppModule } from 'app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('v1/api')
+  app.setGlobalPrefix('v1/api');
 
   app.enableCors({
     origin: '*',

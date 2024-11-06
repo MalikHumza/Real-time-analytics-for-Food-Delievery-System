@@ -11,13 +11,23 @@ import { ResetPasswordUseCase } from '@domain/usecases/auth/reset_password';
 import { SignOutUseCase } from '@domain/usecases/auth/signout';
 
 @Module({
-    providers: [AuthService, LoginUseCase, SignUpUseCase, UserService, ResetPasswordUseCase, SignOutUseCase],
-    imports: [UserModule, JwtModule.register({
-        global: true,
-        secret: JWT_KEY,
-        signOptions: { expiresIn: '86400s' }
-    })],
-    exports: [LoginUseCase, SignUpUseCase],
-    controllers: [AuthController]
+  providers: [
+    AuthService,
+    LoginUseCase,
+    SignUpUseCase,
+    UserService,
+    ResetPasswordUseCase,
+    SignOutUseCase,
+  ],
+  imports: [
+    UserModule,
+    JwtModule.register({
+      global: true,
+      secret: JWT_KEY,
+      signOptions: { expiresIn: '86400s' },
+    }),
+  ],
+  exports: [LoginUseCase, SignUpUseCase],
+  controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}

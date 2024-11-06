@@ -7,8 +7,13 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-    providers: [DishesService, CreateDishUseCase, RestaurantService, { provide: APP_GUARD, useClass: RolesGuard }],
-    imports: [],
-    controllers: [DishesController]
+  providers: [
+    DishesService,
+    CreateDishUseCase,
+    RestaurantService,
+    { provide: APP_GUARD, useClass: RolesGuard },
+  ],
+  imports: [],
+  controllers: [DishesController],
 })
-export class DishesModule { }
+export class DishesModule {}

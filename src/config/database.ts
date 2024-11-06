@@ -1,7 +1,7 @@
-import { prisma } from "./prisma/prisma_config";
+import { prisma } from './prisma/prisma_config';
 
 const database = {
-    instance: prisma,
+  instance: prisma,
 };
 
 export type IDBClient = typeof database;
