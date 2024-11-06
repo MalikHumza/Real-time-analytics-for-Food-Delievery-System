@@ -10,4 +10,5 @@ export const {
   ENVIRONMENT,
   LOG_FORMAT,
   JWT_KEY,
+  ESTIMATED_DELIVERY_TIME,
 } = process.env;

@@ -70,4 +70,18 @@ export class DishesService {
       },
     });
   }
+
+  async getTop5PopularDishes(restaurant_id: string) {
+    return await this.dishes.groupBy({
+      by: ['id', 'name', 'popularity_score', 'price'],
+      orderBy: [
+        { name: 'desc' },
+        { popularity_score: 'desc' },
+        { price: 'desc' }
+      ],
+      where: {
+        restaurant_id,
+      }
+    })
+  }
 }

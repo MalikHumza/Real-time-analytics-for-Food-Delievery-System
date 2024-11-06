@@ -5,6 +5,7 @@ import { CreateRestaurantUseCase } from '@domain/usecases/restaurant/create_rest
 import { GetAllRestaurantsUseCase } from '@domain/usecases/restaurant/get_all_restaurants';
 import { GetAllRestaurantsByUserUseCase } from '@domain/usecases/restaurant/get_all_restaurants_by_user';
 import { GetRestaurantByIdUseCase } from '@domain/usecases/restaurant/get_restaurant_by_id';
+import { GetTop5RestaurantsUseCase } from '@domain/usecases/restaurant/get_top5_restaurants';
 import { Roles } from '@infrastructure/decorators/roles.decorator';
 import {
   Body,
@@ -25,6 +26,7 @@ export class RestaurantController {
     private readonly getRestaurantByIdUseCase: GetRestaurantByIdUseCase,
     private readonly getAllRestaurantsByUserUseCase: GetAllRestaurantsByUserUseCase,
     private readonly getAllRestaurantsUseCase: GetAllRestaurantsUseCase,
+    private readonly getTop5RestaurantsUseCase: GetTop5RestaurantsUseCase,
   ) { }
 
   @Roles(ROLES.ADMIN)
@@ -55,5 +57,12 @@ export class RestaurantController {
   @HttpCode(200)
   getAllRestaurants() {
     return this.getAllRestaurantsUseCase.call();
+  }
+
+  @Roles(ROLES.ADMIN && ROLES.CUSTOMER)
+  @Get('/top_dishes/:id')
+  @HttpCode(200)
+  getTop5Restaurants(@Param('id') id: string) {
+    return this.getTop5RestaurantsUseCase.call(id);
   }
 }

@@ -89,7 +89,7 @@ model orderDish {
 
 model Deliveries {
   id                          String   @id @default(cuid())
-  delivery_time               Int
+  delivery_time               Int?
   estimated_delivery_duration Int
   assigned_rider_id           String
   order_id                    String

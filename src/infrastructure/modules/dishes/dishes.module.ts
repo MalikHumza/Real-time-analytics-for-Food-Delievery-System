@@ -16,6 +16,7 @@ import { APP_GUARD } from '@nestjs/core';
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
   imports: [],
+  exports: [DishesService],
   controllers: [DishesController],
 })
 export class DishesModule { }
