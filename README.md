@@ -45,19 +45,6 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
-## Run tests
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
 ## Resources
 
 Check out a few resources that may come in handy when working with NestJS:
