@@ -1,10 +1,12 @@
 import { CreateDishesDTO } from '@data/dtos/dishes/create_dishes.dto';
 import { ROLES } from '@data/enums/roles.enum';
 import { CreateDishUseCase } from '@domain/usecases/dishes/create_dishes';
+import { GetAllDishesByRestaurantUseCase } from '@domain/usecases/dishes/get_dishes_by_restaurant';
 import { Roles } from '@infrastructure/decorators/roles.decorator';
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Param,
   Post,
@@ -14,9 +16,11 @@ import {
 
 @Controller('dishes')
 export class DishesController {
-  constructor(private readonly createDishUseCase: CreateDishUseCase) {}
+  constructor(
+    private readonly createDishUseCase: CreateDishUseCase,
+    private readonly getAllDishesByRestaurantUseCase: GetAllDishesByRestaurantUseCase
+  ) { }
 
-  // Create a new dish
   @Roles(ROLES.ADMIN)
   @Post('create/:restaurant_id')
   @HttpCode(201)
@@ -28,24 +32,9 @@ export class DishesController {
     return this.createDishUseCase.call(restaurant_id, data);
   }
 
-  // Get all dishes for a specific restaurant
-  // @Get('restaurant/:restaurantId')
-  // getAllByRestaurant(@Param('restaurantId') restaurantId: string) {
-  //     return this.dishesService.getAllDishesByRestaurant(restaurantId);
-  // }
-
-  // // Update a dish
-  // @Patch(':id')
-  // update(
-  //     @Param('id') id: string,
-  //     @Body() updateDishDto: UpdateDishDto,
-  // ) {
-  //     return this.dishesService.updateDish(id, updateDishDto);
-  // }
-
-  // // Delete a dish
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //     return this.dishesService.deleteDish(id);
-  // }
+  @Get('restaurant/:restaurant_id')
+  @HttpCode(200)
+  getAllDishesByRestaurant(@Param('restaurant_id') restaurant_id: string) {
+    return this.getAllDishesByRestaurantUseCase.call(restaurant_id);
+  }
 }

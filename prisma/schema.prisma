@@ -61,16 +61,16 @@ model Dishes {
 }
 
 model Orders {
-  id            String       @id @default(cuid())
-  total_cost    Int
+  id            String        @id @default(cuid())
+  total_cost    Int?
   order_time    Int
-  status        ORDER_STATUS
+  status        ORDER_STATUS?
   user_id       String
   restaurant_id String
-  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  restaurant    Restaurants  @relation(fields: [restaurant_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  user          User          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  restaurant    Restaurants   @relation(fields: [restaurant_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   orderDish     orderDish[]
   Delieveries   Deliveries[]
 }

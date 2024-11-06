@@ -2,13 +2,14 @@ import { AuthGuard } from '@infrastructure/middlewares/auth.middleware';
 import { HttpExceptionFilter } from '@infrastructure/middlewares/error.middleware';
 import { AuthModule } from '@infrastructure/modules/auth/auth.module';
 import { DishesModule } from '@infrastructure/modules/dishes/dishes.module';
+import { OrdersModule } from '@infrastructure/modules/orders/orders.module';
 import { RestaurantModule } from '@infrastructure/modules/restaurant/restaurant.module';
 import { UserModule } from '@infrastructure/modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 
 @Module({
-  imports: [AuthModule, UserModule, RestaurantModule, DishesModule],
+  imports: [AuthModule, UserModule, RestaurantModule, DishesModule, OrdersModule],
   providers: [
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
     { provide: APP_GUARD, useClass: AuthGuard },
@@ -20,4 +21,4 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
     // },
   ],
 })
-export class AppModule {}
+export class AppModule { }

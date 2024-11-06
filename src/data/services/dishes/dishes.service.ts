@@ -46,9 +46,6 @@ export class DishesService {
       where: {
         restaurant_id,
       },
-      include: {
-        restaurant: true,
-      },
     });
   }
 
