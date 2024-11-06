@@ -27,4 +27,4 @@ import { APP_GUARD } from '@nestjs/core';
   exports: [RestaurantService],
   controllers: [RestaurantController],
 })
-export class RestaurantModule { }
+export class RestaurantModule {}

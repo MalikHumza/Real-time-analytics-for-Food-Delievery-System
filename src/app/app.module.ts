@@ -25,8 +25,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       removeListener: true, // emit removeListener event every time a listener is removed.
       maxListeners: 10, // maximum number of listeners can be register in an event
       verboseMemoryLeak: true, // shows memory leak warning message when the maxListeners limit is exceeded.
-      ignoreErrors: false // shows error every time error emitted in EventEmitter and terminates the Nestjs Process
-    })
+      ignoreErrors: false, // shows error every time error emitted in EventEmitter and terminates the Nestjs Process
+    }),
   ],
   providers: [
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
@@ -39,4 +39,4 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     // },
   ],
 })
-export class AppModule { }
+export class AppModule {}

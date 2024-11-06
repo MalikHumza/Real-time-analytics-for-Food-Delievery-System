@@ -77,11 +77,11 @@ export class DishesService {
       orderBy: [
         { name: 'desc' },
         { popularity_score: 'desc' },
-        { price: 'desc' }
+        { price: 'desc' },
       ],
       where: {
         restaurant_id,
-      }
-    })
+      },
+    });
   }
 }

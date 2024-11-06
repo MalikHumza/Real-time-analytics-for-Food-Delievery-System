@@ -10,7 +10,7 @@ export class OrdersService {
     order_time: number;
     user_id: string;
     restaurant_id: string;
-    status: ORDER_STATUS,
+    status: ORDER_STATUS;
     dishes: Array<{ dish_id: string; quantity: number }>;
   }) {
     return this.orders.create({
@@ -20,11 +20,11 @@ export class OrdersService {
         status: data.status,
         restaurant_id: data.restaurant_id,
         orderDish: {
-          create: data.dishes.map(i => ({
+          create: data.dishes.map((i) => ({
             dish_id: i.dish_id,
             quantity: i.quantity,
           })),
-        }
+        },
       },
     });
   }
@@ -32,53 +32,58 @@ export class OrdersService {
   getOrderById(order_id: string) {
     return this.orders.findUnique({
       where: {
-        id: order_id
+        id: order_id,
       },
       include: {
         orderDish: true,
-        restaurant: true
-      }
-    })
+        restaurant: true,
+      },
+    });
   }
 
   getOrderStatusById(order_id: string) {
     return this.orders.findUnique({
       where: {
-        id: order_id
+        id: order_id,
       },
       include: {
         orderDish: true,
         Delieveries: true,
-        restaurant: true
-      }
-    })
+        restaurant: true,
+      },
+    });
   }
 
   getOrderByUser(user_id: string) {
     return this.orders.findMany({
       where: {
-        user_id
+        user_id,
       },
       include: {
         orderDish: true,
         Delieveries: true,
-        restaurant: true
-      }
-    })
+        restaurant: true,
+      },
+    });
   }
 
   updateOrderTotalCost(id: string, total_cost: number) {
     return this.orders.update({
       where: {
-        id
+        id,
       },
       data: {
-        total_cost
-      }
-    })
+        total_cost,
+      },
+    });
   }
 
-  updateOrderStatus(user_id: string, id: string, restaurant_id: string, status: ORDER_STATUS) {
+  updateOrderStatus(
+    user_id: string,
+    id: string,
+    restaurant_id: string,
+    status: ORDER_STATUS,
+  ) {
     return this.orders.update({
       where: {
         user_id,
@@ -86,9 +91,9 @@ export class OrdersService {
         restaurant_id,
       },
       data: {
-        status
-      }
-    })
+        status,
+      },
+    });
   }
 
   getOrdersByRestaurantAndOrderId(order_id: string, restaurant_id: string) {
@@ -96,11 +101,11 @@ export class OrdersService {
       where: {
         restaurant_id,
         id: order_id,
-        status: ORDER_STATUS.COMPLETED
+        status: ORDER_STATUS.COMPLETED,
       },
       include: {
-        orderDish: true
-      }
+        orderDish: true,
+      },
     });
   }
 
@@ -110,23 +115,23 @@ export class OrdersService {
       orderBy: {
         orderDish: {
           every: {
-            dis_id
-          }
-        }
+            dis_id,
+          },
+        },
       },
       where: {
         orderDish: {
           some: {
             dish_id: {
-              in: dish_ids
-            }
-          }
+              in: dish_ids,
+            },
+          },
         },
         status: ORDER_STATUS.COMPLETED,
       },
       _sum: {
-        total_coast: true
-      }
+        total_coast: true,
+      },
     });
   }
 }

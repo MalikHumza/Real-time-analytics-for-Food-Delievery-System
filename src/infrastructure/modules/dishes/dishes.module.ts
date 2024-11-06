@@ -19,4 +19,4 @@ import { APP_GUARD } from '@nestjs/core';
   exports: [DishesService],
   controllers: [DishesController],
 })
-export class DishesModule { }
+export class DishesModule {}

@@ -39,9 +39,9 @@ export class RestaurantService {
   getAllRestaurantByUser(user_id: string) {
     return this.restuarant.findMany({
       where: {
-        user_id
-      }
-    })
+        user_id,
+      },
+    });
   }
 
   getAllRestaurants() {

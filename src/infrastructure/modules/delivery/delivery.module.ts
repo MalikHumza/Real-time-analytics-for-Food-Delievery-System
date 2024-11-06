@@ -8,15 +8,15 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-    providers: [
-        DeliveryService,
-        AcceptOrderDeliveryUseCase,
-        DeliverOrderUseCase,
-        OrdersService,
-        { provide: APP_GUARD, useClass: RolesGuard },
-    ],
-    imports: [],
-    exports: [DeliveryService],
-    controllers: [DeliveryController],
+  providers: [
+    DeliveryService,
+    AcceptOrderDeliveryUseCase,
+    DeliverOrderUseCase,
+    OrdersService,
+    { provide: APP_GUARD, useClass: RolesGuard },
+  ],
+  imports: [],
+  exports: [DeliveryService],
+  controllers: [DeliveryController],
 })
-export class DeliveryModule { }
+export class DeliveryModule {}
