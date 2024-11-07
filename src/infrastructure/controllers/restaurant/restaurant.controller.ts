@@ -27,7 +27,7 @@ export class RestaurantController {
     private readonly getAllRestaurantsByUserUseCase: GetAllRestaurantsByUserUseCase,
     private readonly getAllRestaurantsUseCase: GetAllRestaurantsUseCase,
     private readonly getTop5RestaurantsUseCase: GetTop5RestaurantsUseCase,
-  ) {}
+  ) { }
 
   @Roles(ROLES.ADMIN)
   @Post('/create')
@@ -59,8 +59,8 @@ export class RestaurantController {
     return this.getAllRestaurantsUseCase.call();
   }
 
-  @Roles(ROLES.ADMIN && ROLES.CUSTOMER)
-  @Get('/top_dishes/:id')
+  @Roles(ROLES.ADMIN, ROLES.CUSTOMER)
+  @Get('/analytics/popular-dishes/:id')
   @HttpCode(200)
   getTop5Restaurants(@Param('id') id: string) {
     return this.getTop5RestaurantsUseCase.call(id);

@@ -5,6 +5,7 @@ import { ORDER_STATUS } from '@prisma/client';
 @Injectable()
 export class OrdersService {
   private orders = database.instance.orders;
+  private orderDish = database.instance.orderDish;
 
   createOrder(data: {
     order_time: number;
@@ -110,28 +111,124 @@ export class OrdersService {
   }
 
   getOrderDetailsByDishId(dish_ids: string[]) {
-    return this.orders.groupBy({
-      by: ['orderDish', 'dish_id'],
-      orderBy: {
-        orderDish: {
-          every: {
-            dis_id,
-          },
-        },
-      },
+    return this.orderDish.groupBy({
+      by: ['order_id', 'dish_id'],
+      orderBy: [
+        { dish_id: 'desc' },
+        { order_id: 'desc' },
+      ],
       where: {
-        orderDish: {
-          some: {
-            dish_id: {
-              in: dish_ids,
-            },
-          },
+        order: {
+          status: ORDER_STATUS.COMPLETED
         },
-        status: ORDER_STATUS.COMPLETED,
-      },
-      _sum: {
-        total_coast: true,
+        dish_id: {
+          in: dish_ids
+        }
       },
     });
+  }
+
+  getOrdersByOrderId(order_ids: string[]) {
+    return this.orders.findMany({
+      where: {
+        id: {
+          in: order_ids
+        }
+      },
+      include: {
+        orderDish: true
+      }
+    })
+  }
+
+  getCompletedOrdersByRider(rider_id: string) {
+    return this.orders.findMany({
+      where: {
+        status: ORDER_STATUS.COMPLETED,
+        Delieveries: {
+          some: {
+            assigned_rider_id: rider_id
+          }
+        }
+      },
+    })
+  }
+
+  getAllOrdersByRestaurantId(restaurant_id: string) {
+    return this.orders.findMany({
+      where: {
+        restaurant_id
+      }
+    })
+  }
+
+  getInProgressOrdersByRider(rider_id: string) {
+    return this.orders.findMany({
+      where: {
+        status: ORDER_STATUS.IN_PROGRESS,
+        Delieveries: {
+          some: {
+            assigned_rider_id: rider_id
+          }
+        }
+      },
+    })
+  }
+
+  getAllPendingOrders() {
+    return this.orders.findMany({
+      where: {
+        status: ORDER_STATUS.PENDING,
+      },
+      include: {
+        restaurant: true,
+        orderDish: true
+      }
+    })
+  }
+
+  getAllCompletedOrdersByRestaurantId(restaurant_id: string) {
+    return this.orders.findMany({
+      where: {
+        restaurant_id,
+        status: ORDER_STATUS.COMPLETED
+      }
+    })
+  }
+
+  getDishIdsAndQuantityByOrderId(order_ids: string[]) {
+    return this.orderDish.findMany({
+      where: {
+        order_id: {
+          in: order_ids
+        }
+      }
+    })
+  }
+
+  getAllActiveOrdersByRestaurantIds(restaurant_ids: string[]) {
+    return this.orders.findMany({
+      where: {
+        restaurant_id: {
+          in: restaurant_ids
+        },
+        status: {
+          not: ORDER_STATUS.COMPLETED
+        }
+      },
+      select: {
+        restaurant: {
+          select: {
+            id: true,
+            name: true,
+            location: true
+          }
+        },
+        id: true,
+        status: true,
+        order_time: true,
+        createdAt: true,
+      }
+    })
   }
 }
