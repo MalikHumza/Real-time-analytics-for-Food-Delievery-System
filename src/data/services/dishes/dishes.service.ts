@@ -46,10 +46,7 @@ export class DishesService {
       where: {
         restaurant_id,
       },
-      orderBy: [
-        { popularity_score: 'desc' },
-        { price: 'desc' }
-      ]
+      orderBy: [{ popularity_score: 'desc' }, { price: 'desc' }],
     });
   }
 
@@ -93,9 +90,9 @@ export class DishesService {
     return this.dishes.findMany({
       where: {
         id: {
-          in: dish_ids
-        }
-      }
-    })
+          in: dish_ids,
+        },
+      },
+    });
   }
 }

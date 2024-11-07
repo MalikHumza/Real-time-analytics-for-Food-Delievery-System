@@ -27,7 +27,7 @@ export class RestaurantController {
     private readonly getAllRestaurantsByUserUseCase: GetAllRestaurantsByUserUseCase,
     private readonly getAllRestaurantsUseCase: GetAllRestaurantsUseCase,
     private readonly getTop5RestaurantsUseCase: GetTop5RestaurantsUseCase,
-  ) { }
+  ) {}
 
   @Roles(ROLES.ADMIN)
   @Post('/create')

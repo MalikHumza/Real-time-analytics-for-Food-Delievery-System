@@ -20,26 +20,36 @@ export class GetTop5RestaurantsUseCase {
       throw new HttpException('Restaurant does not exist', 400);
     }
 
-    const orders = await this.orderService.getAllCompletedOrdersByRestaurantId(restaurant_id);
+    const orders =
+      await this.orderService.getAllCompletedOrdersByRestaurantId(
+        restaurant_id,
+      );
     if (orders.length === 0) {
       throw new HttpException('No Order Completed Yet', 400);
     }
 
-    const orderDisehs = await this.orderService.getDishIdsAndQuantityByOrderId(orders.map(i => i.id));
+    const orderDisehs = await this.orderService.getDishIdsAndQuantityByOrderId(
+      orders.map((i) => i.id),
+    );
     const groupDishes = groupBy(orderDisehs, 'dish_id');
 
-    const sumOfDishQuantity = Object.entries(groupDishes).reduce((acc, [dish_id, dishes]) => {
-      const total_quantity = (dishes as Array<{ quantity: number }>).reduce(
-        (sum, dish) => sum + dish.quantity,
-        0
-      );
+    const sumOfDishQuantity = Object.entries(groupDishes).reduce(
+      (acc, [dish_id, dishes]) => {
+        const total_quantity = (dishes as Array<{ quantity: number }>).reduce(
+          (sum, dish) => sum + dish.quantity,
+          0,
+        );
 
-      acc[dish_id] = total_quantity;
-      return acc;
-    }, {} as Record<string, number>);
+        acc[dish_id] = total_quantity;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
-    const getDishDetails = await this.disheService.getDishDetailsByDishIds(Object.entries(sumOfDishQuantity).map(i => i[0]));
-    const dishSales = getDishDetails.map(i => {
+    const getDishDetails = await this.disheService.getDishDetailsByDishIds(
+      Object.entries(sumOfDishQuantity).map((i) => i[0]),
+    );
+    const dishSales = getDishDetails.map((i) => {
       const quantity = sumOfDishQuantity[i.id] || 0;
       const sales = quantity * i.price;
 
@@ -50,7 +60,7 @@ export class GetTop5RestaurantsUseCase {
         quantity,
         price: i.price,
         sales,
-        popularity_score: i.popularity_score
+        popularity_score: i.popularity_score,
       };
     });
 

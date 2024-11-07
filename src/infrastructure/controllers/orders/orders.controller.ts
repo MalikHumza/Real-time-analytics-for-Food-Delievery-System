@@ -31,7 +31,7 @@ export class OrdersController {
     private readonly getAllPendingOrdersUseCase: GetAllPendingOrdersUseCase,
     private readonly getPeakOrderTimeForEachRestaurantUseCase: GetPeakOrderTimeForEachRestaurantUseCase,
     private readonly getAllActiveOrdersUseCase: GetAllActiveOrdersUseCase,
-  ) { }
+  ) {}
 
   @Roles(ROLES.CUSTOMER)
   @Post('/create/:restaurant_id')

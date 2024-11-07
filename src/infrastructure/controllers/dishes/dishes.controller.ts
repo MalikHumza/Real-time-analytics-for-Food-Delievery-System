@@ -19,7 +19,7 @@ export class DishesController {
   constructor(
     private readonly createDishUseCase: CreateDishUseCase,
     private readonly getAllDishesByRestaurantUseCase: GetAllDishesByRestaurantUseCase,
-  ) { }
+  ) {}
 
   @Roles(ROLES.ADMIN)
   @Post('create/:restaurant_id')

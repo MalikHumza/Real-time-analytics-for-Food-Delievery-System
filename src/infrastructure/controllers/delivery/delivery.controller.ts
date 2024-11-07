@@ -2,7 +2,15 @@ import { ROLES } from '@data/enums/roles.enum';
 import { Roles } from '@infrastructure/decorators/roles.decorator';
 import { RequestWithUser } from '@data/interfaces/request.interface';
 import { DeliverOrderUseCase } from '@domain/usecases/delivery/deliver_order';
-import { Controller, Get, HttpCode, Param, Post, Query, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { AcceptOrderDeliveryUseCase } from '@domain/usecases/delivery/accept_order_delivery';
 import { GetAverageDeliveryTimeForCompletedOrderUseCase } from '@domain/usecases/delivery/get_average_delivery_time';
 @Controller('delivery')
@@ -11,7 +19,7 @@ export class DeliveryController {
     private readonly acceptOrderDeliveryUseCase: AcceptOrderDeliveryUseCase,
     private readonly deliverOrderUseCase: DeliverOrderUseCase,
     private readonly getAverageDeliveryTimeForCompletedOrderUseCase: GetAverageDeliveryTimeForCompletedOrderUseCase,
-  ) { }
+  ) {}
 
   @Roles(ROLES.RIDER)
   @Post('/accept/:order_id')
@@ -36,7 +44,13 @@ export class DeliveryController {
   @Roles(ROLES.RIDER, ROLES.ADMIN)
   @Get('/analytics/delivery-times/:restaurant_id')
   @HttpCode(200)
-  getAverageDeliveryTimeForCompletedOrders(@Param('restaurant_id') restaurant_id: string, @Query('period') period: string) {
-    return this.getAverageDeliveryTimeForCompletedOrderUseCase.call(restaurant_id, period);
+  getAverageDeliveryTimeForCompletedOrders(
+    @Param('restaurant_id') restaurant_id: string,
+    @Query('period') period: string,
+  ) {
+    return this.getAverageDeliveryTimeForCompletedOrderUseCase.call(
+      restaurant_id,
+      period,
+    );
   }
 }
