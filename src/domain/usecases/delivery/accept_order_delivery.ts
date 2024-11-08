@@ -56,8 +56,8 @@ export class AcceptOrderDeliveryUseCase {
       restaurant_id: order.restaurant_id,
       status: order_status.status,
       rider_id: user_id,
-      estimated_delivery_time: `${ESTIMATED_DELIVERY_TIME} minutes`
-    })
+      estimated_delivery_time: `${ESTIMATED_DELIVERY_TIME} minutes`,
+    });
 
     const response = {
       ...delivery,

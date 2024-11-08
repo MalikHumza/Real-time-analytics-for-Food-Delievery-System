@@ -53,8 +53,8 @@ export class CreateOrdersUseCase {
       order_id: create_order.id,
       restaurant_id,
       status: ORDER_STATUS.PENDING,
-      estimated_delivery_time: `${ESTIMATED_DELIVERY_TIME} minutes`
-    })
+      estimated_delivery_time: `${ESTIMATED_DELIVERY_TIME} minutes`,
+    });
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 

@@ -49,7 +49,10 @@ export class DeliverOrderUseCase {
     );
 
     const order_status = await this.orderService.getOrderStatusById(order_id);
-    const delivery_detail = await this.deliveryService.getDeliveryByOrder(user_id, order_id);
+    const delivery_detail = await this.deliveryService.getDeliveryByOrder(
+      user_id,
+      order_id,
+    );
 
     this.eventEmitter.emit('order.status', {
       user_id: order.user_id,
@@ -58,8 +61,8 @@ export class DeliverOrderUseCase {
       status: order_status.status,
       rider_id: user_id,
       estimated_delivery_time: `${ESTIMATED_DELIVERY_TIME} minutes`,
-      delivered_time: delivery_detail.delivery_time
-    })
+      delivered_time: delivery_detail.delivery_time,
+    });
 
     const response = {
       ...update_delivery,

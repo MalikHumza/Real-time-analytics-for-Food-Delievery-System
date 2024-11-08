@@ -35,4 +35,4 @@ import { APP_GUARD } from '@nestjs/core';
   imports: [],
   exports: [],
 })
-export class OrdersModule { }
+export class OrdersModule {}

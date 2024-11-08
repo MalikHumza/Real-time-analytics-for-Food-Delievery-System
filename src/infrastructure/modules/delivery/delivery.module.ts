@@ -25,4 +25,4 @@ import { APP_GUARD } from '@nestjs/core';
   exports: [DeliveryService],
   controllers: [DeliveryController],
 })
-export class DeliveryModule { }
+export class DeliveryModule {}
