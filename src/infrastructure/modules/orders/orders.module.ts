@@ -9,6 +9,7 @@ import { GetOrdersByUserUseCase } from '@domain/usecases/orders/get_orders_by_us
 import { GetPeakOrderTimeForEachRestaurantUseCase } from '@domain/usecases/orders/get_peak_order_time_for_restaurants';
 import { GetInProgressOrdersByUserUseCase } from '@domain/usecases/orders/inProgress_orders_by_user';
 import { OrdersController } from '@infrastructure/controllers/orders/orders.controller';
+import { KafkaOrderPlaceEventListner } from '@infrastructure/events/kafka/order/order_placed.events';
 import { OrderCreatedListener } from '@infrastructure/events/orders/order_create.event';
 import { RolesGuard } from '@infrastructure/middlewares/roles.middleware';
 import { Module } from '@nestjs/common';
@@ -27,10 +28,11 @@ import { APP_GUARD } from '@nestjs/core';
     GetPeakOrderTimeForEachRestaurantUseCase,
     DishesService,
     GetAllActiveOrdersUseCase,
+    KafkaOrderPlaceEventListner,
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
   controllers: [OrdersController],
   imports: [],
   exports: [],
 })
-export class OrdersModule {}
+export class OrdersModule { }

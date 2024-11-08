@@ -5,6 +5,7 @@ import { AcceptOrderDeliveryUseCase } from '@domain/usecases/delivery/accept_ord
 import { DeliverOrderUseCase } from '@domain/usecases/delivery/deliver_order';
 import { GetAverageDeliveryTimeForCompletedOrderUseCase } from '@domain/usecases/delivery/get_average_delivery_time';
 import { DeliveryController } from '@infrastructure/controllers/delivery/delivery.controller';
+import { KafkaOrderStatusUpdateEventListener } from '@infrastructure/events/kafka/order/order_status_update.event';
 import { RolesGuard } from '@infrastructure/middlewares/roles.middleware';
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
@@ -17,10 +18,11 @@ import { APP_GUARD } from '@nestjs/core';
     DeliverOrderUseCase,
     OrdersService,
     RestaurantService,
+    KafkaOrderStatusUpdateEventListener,
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
   imports: [],
   exports: [DeliveryService],
   controllers: [DeliveryController],
 })
-export class DeliveryModule {}
+export class DeliveryModule { }

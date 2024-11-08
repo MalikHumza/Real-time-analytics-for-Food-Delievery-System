@@ -1,3 +1,4 @@
+import { ESTIMATED_DELIVERY_TIME } from '@config/environment';
 import { CreateOrdersDTO } from '@data/dtos/orders/create_order.dto';
 import { RequestWithUser } from '@data/interfaces/request.interface';
 import { HttpResponse } from '@data/res/http_response';
@@ -41,10 +42,19 @@ export class CreateOrdersUseCase {
         quantity: dish.quantity,
       })),
     });
+
     this.eventsEmitter.emit('order.created', {
       order_id: create_order.id,
       dishes: data.dishes,
     });
+
+    this.eventsEmitter.emit('order.placed', {
+      user_id,
+      order_id: create_order.id,
+      restaurant_id,
+      status: ORDER_STATUS.PENDING,
+      estimated_delivery_time: `${ESTIMATED_DELIVERY_TIME} minutes`
+    })
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 

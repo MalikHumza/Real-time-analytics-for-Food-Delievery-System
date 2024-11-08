@@ -8,6 +8,8 @@ import { logger, stream } from './infrastructure/common/logger';
 import { CREDENTIALS, LOG_FORMAT, NODE_ENV, PORT } from './config/environment';
 import { HttpExceptionFilter } from './infrastructure/middlewares/error.middleware';
 import { AppModule } from 'app/app.module';
+import { initializeKafka } from '@config/kafka/kafka.config';
+import { orderPlacedConsumerNotification } from '@domain/notifications/kafka/orders/order_placed.notification';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,6 +33,11 @@ async function bootstrap() {
       transform: true, // Automatically transform payloads to DTO classes
     }),
   );
+
+  // await initializeTopicsByAdmin(); just when need to create topics
+  await initializeKafka();
+  await orderPlacedConsumerNotification();
+  // consum
 
   await app.listen(PORT, () => {
     logger.info(`=================================`);
